@@ -5,7 +5,7 @@ class Cell:
         self.alive = alive
 
 class Grid:
-    def __init__(self, size: int, initial_state: typing.List[bool]=None):
+    def __init__(self, size: int, initial_state: typing.List[typing.List[bool]]=None):
         self.length = size
         if initial_state:
             self.diagram = Grid.set_initial_state(initial_state)
@@ -48,3 +48,17 @@ class Grid:
     def set_initial_state(initial_state: typing.List[typing.List[bool]]):
         return [[Cell(initial_state[y][x]) for x in range(len(initial_state))] for y in range(len(initial_state))]
 
+
+class World:
+    def __init__(self, grid: Grid):
+        self.history = []
+        self.now = grid
+
+    def tick(self):
+        """
+        This method will determine the fate of all cells in the grid, append now to history, and form a new grid using
+        the predetermined fates as its initial state. So the world turns.
+        :return: None
+        """
+        self.history.append(self.now)
+        self.now = Grid(len(self.now.diagram), self.now.determine_fates_of_all())

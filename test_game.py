@@ -1,5 +1,5 @@
 import pytest
-from game import Grid, Cell
+from game import Grid, Cell, World
 
 
 @pytest.fixture
@@ -20,6 +20,20 @@ def three_grid_with_horizontal_bar(three_grid):
 def cell():
     return Cell()
 
+
+class TestWorld:
+    def test_tick_with_three_grid_with_horizontal_bar(self, three_grid_with_horizontal_bar):
+        w = World(three_grid_with_horizontal_bar)
+        w.tick()
+        assert w.history[0] == three_grid_with_horizontal_bar
+        expected_future = [
+            [Cell(False), Cell(True), Cell(False)],
+            [Cell(False), Cell(True), Cell(False)],
+            [Cell(False), Cell(True), Cell(False)]
+        ]
+        for y in range(2):
+            for x in range(2):
+                assert w.now.diagram[y][x].alive == expected_future[y][x].alive
 
 class TestGrid:
     def test_give_size_builds_array_of_length_size(self, ten_grid):
