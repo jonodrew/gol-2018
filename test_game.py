@@ -65,7 +65,15 @@ class TestGrid:
         ]
         assert three_grid_with_horizontal_bar.determine_fates_of_all() == expected_fates
 
-
+    def test_set_initial_state(self):
+        initial_state = [
+            [True, True],
+            [True, True]
+        ]
+        test_grid = Grid(2, initial_state)
+        for y in range(2):
+            for x in range(2):
+                assert test_grid.diagram[y][x].alive is True
 
 class TestCell:
     def test_cell_is_initialised_dead(self, cell):

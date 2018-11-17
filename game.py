@@ -5,9 +5,12 @@ class Cell:
         self.alive = alive
 
 class Grid:
-    def __init__(self, size):
+    def __init__(self, size: int, initial_state: typing.List[bool]=None):
         self.length = size
-        self.diagram = [[Cell() for i in range(size)] for i in range(size)]
+        if initial_state:
+            self.diagram = Grid.set_initial_state(initial_state)
+        else:
+            self.diagram = [[Cell() for i in range(size)] for i in range(size)]
 
     def determine_fates_of_all(self):
         return [[self.determine_fate_of_one_cell(y, x) for x in range(self.length)] for y in range(self.length)]
@@ -40,3 +43,8 @@ class Grid:
                 return False
         else:
             return True if number_of_living_neighbours == 3 else False
+
+    @staticmethod
+    def set_initial_state(initial_state: typing.List[typing.List[bool]]):
+        return [[Cell(initial_state[y][x]) for x in range(len(initial_state))] for y in range(len(initial_state))]
+
