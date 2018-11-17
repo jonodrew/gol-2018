@@ -1,3 +1,5 @@
+import typing
+
 class Grid:
     def __init__(self, size):
         self.length = size
@@ -14,5 +16,11 @@ class Grid:
 
 
 class Cell:
-    def __init__(self):
-        pass
+    def __init__(self, alive: bool=False):
+        self.alive = alive
+
+    def die(self):
+        self.alive = False
+
+    def resurrect(self):
+        self.alive = True
