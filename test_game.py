@@ -7,6 +7,16 @@ def ten_grid():
     return Grid(10)
 
 @pytest.fixture
+def three_grid():
+    return Grid(3)
+
+@pytest.fixture
+def three_grid_with_horizontal_bar(three_grid):
+    for x in range(3):
+        three_grid.diagram[1][x].resurrect()
+    return three_grid
+
+@pytest.fixture
 def cell():
     return Cell()
 
@@ -42,13 +52,19 @@ class TestGrid:
         assert ten_grid.get_cell_status(0, 0) is True
         assert ten_grid.get_cell_status(1, 1) is False
 
-    def test_determine_fate(self):
-        test_grid = Grid(3)
-        for x in range(3):
-            test_grid.diagram[1][x].resurrect()
-        assert test_grid.determine_fate(1, 0) is False
-        assert test_grid.determine_fate(0, 1) is True
-        assert test_grid.determine_fate(1, 1) is True
+    def test_determine_fate(self, three_grid_with_horizontal_bar):
+        assert three_grid_with_horizontal_bar.determine_fate_of_one_cell(1, 0) is False
+        assert three_grid_with_horizontal_bar.determine_fate_of_one_cell(0, 1) is True
+        assert three_grid_with_horizontal_bar.determine_fate_of_one_cell(1, 1) is True
+
+    def test_determine_fates_of_all(self, three_grid_with_horizontal_bar):
+        expected_fates = [
+            [False, True, False],
+            [False, True, False],
+            [False, True, False]
+        ]
+        assert three_grid_with_horizontal_bar.determine_fates_of_all() == expected_fates
+
 
 
 class TestCell:

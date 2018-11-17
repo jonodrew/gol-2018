@@ -17,7 +17,10 @@ class Grid:
         self.length = size
         self.diagram = [[Cell() for i in range(size)] for i in range(size)]
 
-    def determine_fate(self, y_coordinate: int, x_coordinate: int) -> bool:
+    def determine_fates_of_all(self):
+        return [[self.determine_fate_of_one_cell(y, x) for x in range(self.length)] for y in range(self.length)]
+
+    def determine_fate_of_one_cell(self, y_coordinate: int, x_coordinate: int) -> bool:
         return Grid.will_live(
             neighbours=self.neighbours(y_coordinate, x_coordinate),
             cell_alive=self.get_cell_status(y_coordinate, x_coordinate)
