@@ -3,6 +3,7 @@ import typing
 class Cell:
     def __init__(self, alive: bool=False):
         self.alive = alive
+        self.fate = None
 
     def die(self):
         self.alive = False
@@ -16,6 +17,12 @@ class Grid:
         self.length = size
         self.diagram = [[Cell() for i in range(size)] for i in range(size)]
 
+    def determine_fate(self, y_coordinate: int, x_coordinate: int) -> bool:
+        return Grid.will_live(
+            neighbours=self.neighbours(y_coordinate, x_coordinate),
+            cell_alive=self.get_cell_status(y_coordinate, x_coordinate)
+        )
+
     def neighbours(self, y_coordinate, x_coordinate):
         return [
             (self.diagram[y_coordinate + y][x_coordinate + x])
@@ -24,6 +31,9 @@ class Grid:
             if (self.length > y_coordinate + y >= 0) and (self.length > x_coordinate + x >= 0) and (y != 0 or x != 0)
 
         ]
+
+    def get_cell_status(self, y_coordinate: int, x_coordinate: int) -> bool:
+        return self.diagram[y_coordinate][x_coordinate].alive
 
     @staticmethod
     def will_live(neighbours: typing.List[Cell], cell_alive: bool) -> bool:

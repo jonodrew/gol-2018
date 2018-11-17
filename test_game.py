@@ -37,6 +37,19 @@ class TestGrid:
         assert Grid.will_live([Cell(True) for i in range(4)], False) is False
         assert Grid.will_live([Cell(True)], False) is False
 
+    def test_get_cell_status(self, ten_grid):
+        ten_grid.diagram[0][0].resurrect()
+        assert ten_grid.get_cell_status(0, 0) is True
+        assert ten_grid.get_cell_status(1, 1) is False
+
+    def test_determine_fate(self):
+        test_grid = Grid(3)
+        for x in range(3):
+            test_grid.diagram[1][x].resurrect()
+        assert test_grid.determine_fate(1, 0) is False
+        assert test_grid.determine_fate(0, 1) is True
+        assert test_grid.determine_fate(1, 1) is True
+
 
 class TestCell:
     def test_cell_is_initialised_dead(self, cell):
