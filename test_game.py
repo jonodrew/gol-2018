@@ -14,8 +14,9 @@ class TestGrid:
         assert isinstance(ten_grid.diagram[2][4], Cell)
 
     def test_given_position_returns_correct_count_of_neighbours(self, ten_grid):
-        assert len(ten_grid.neighbour_coordinates(1, 1)) == 8
-        assert len(ten_grid.neighbour_coordinates(0, 0)) == 3
-        assert len(ten_grid.neighbour_coordinates(9, 9)) == 3
-        assert len(ten_grid.neighbour_coordinates(0, 9)) == 3
-        assert len(ten_grid.neighbour_coordinates(9, 0)) == 3
+        assert len(ten_grid.neighbours(1, 1)) == 8
+        assert len(ten_grid.neighbours(0, 0)) == 3
+        assert len(ten_grid.neighbours(9, 9)) == 3
+        assert len(ten_grid.neighbours(0, 9)) == 3
+        assert len(ten_grid.neighbours(9, 0)) == 3
+
