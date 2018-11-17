@@ -13,7 +13,7 @@ def three_grid():
 @pytest.fixture
 def three_grid_with_horizontal_bar(three_grid):
     for x in range(3):
-        three_grid.diagram[1][x].resurrect()
+        three_grid.diagram[1][x].alive = True
     return three_grid
 
 @pytest.fixture
@@ -48,7 +48,7 @@ class TestGrid:
         assert Grid.will_live([Cell(True)], False) is False
 
     def test_get_cell_status(self, ten_grid):
-        ten_grid.diagram[0][0].resurrect()
+        ten_grid.diagram[0][0].alive = True
         assert ten_grid.get_cell_status(0, 0) is True
         assert ten_grid.get_cell_status(1, 1) is False
 
@@ -70,12 +70,3 @@ class TestGrid:
 class TestCell:
     def test_cell_is_initialised_dead(self, cell):
         assert not cell.alive
-
-    def test_cell_dies_when_passed_command(self, cell):
-        cell.alive = True
-        cell.die()
-        assert not cell.alive
-
-    def test_cell_resurrects_when_passed_command(self, cell):
-        cell.resurrect()
-        assert cell.alive

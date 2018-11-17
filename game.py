@@ -3,14 +3,6 @@ import typing
 class Cell:
     def __init__(self, alive: bool=False):
         self.alive = alive
-        self.fate = None
-
-    def die(self):
-        self.alive = False
-
-    def resurrect(self):
-        self.alive = True
-
 
 class Grid:
     def __init__(self, size):
