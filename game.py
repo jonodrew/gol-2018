@@ -1,9 +1,20 @@
 import typing
 
+class Cell:
+    def __init__(self, alive: bool=False):
+        self.alive = alive
+
+    def die(self):
+        self.alive = False
+
+    def resurrect(self):
+        self.alive = True
+
+
 class Grid:
     def __init__(self, size):
         self.length = size
-        self.diagram = [[Cell() for i in range(0, size)] for i in range(0, size)]
+        self.diagram = [[Cell() for i in range(size)] for i in range(size)]
 
     def neighbours(self, y_coordinate, x_coordinate):
         return [
@@ -14,13 +25,13 @@ class Grid:
 
         ]
 
-
-class Cell:
-    def __init__(self, alive: bool=False):
-        self.alive = alive
-
-    def die(self):
-        self.alive = False
-
-    def resurrect(self):
-        self.alive = True
+    @staticmethod
+    def will_live(neighbours: typing.List[Cell], cell_alive: bool) -> bool:
+        number_of_living_neighbours = [n.alive for n in neighbours].count(True)
+        if cell_alive:
+            if 3 >= number_of_living_neighbours > 1:
+                return True
+            elif number_of_living_neighbours > 3 or number_of_living_neighbours < 2:
+                return False
+        else:
+            return True if number_of_living_neighbours == 3 else False

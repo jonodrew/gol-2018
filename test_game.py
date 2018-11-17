@@ -26,6 +26,17 @@ class TestGrid:
         assert len(ten_grid.neighbours(0, 9)) == 3
         assert len(ten_grid.neighbours(9, 0)) == 3
 
+    def test_living_cell_fate(self):
+        assert Grid.will_live([Cell(True) for i in range(3)], True) is True
+        assert Grid.will_live([Cell(True) for i in range(4)], True) is False
+        assert Grid.will_live([Cell(True)], True) is False
+
+    def test_dead_cell_fate(self):
+        assert Grid.will_live([Cell(True) for i in range(2)], False) is False
+        assert Grid.will_live([Cell(True) for i in range(3)], False) is True
+        assert Grid.will_live([Cell(True) for i in range(4)], False) is False
+        assert Grid.will_live([Cell(True)], False) is False
+
 
 class TestCell:
     def test_cell_is_initialised_dead(self, cell):
