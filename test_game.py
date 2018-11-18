@@ -6,15 +6,18 @@ from game import Grid, Cell, World
 def ten_grid():
     return Grid(10)
 
+
 @pytest.fixture
 def three_grid():
     return Grid(3)
+
 
 @pytest.fixture
 def three_grid_with_horizontal_bar(three_grid):
     for x in range(3):
         three_grid.diagram[1][x].alive = True
     return three_grid
+
 
 @pytest.fixture
 def cell():
@@ -34,6 +37,7 @@ class TestWorld:
         for y in range(2):
             for x in range(2):
                 assert w.now.diagram[y][x].alive == expected_future[y][x].alive
+
 
 class TestGrid:
     def test_give_size_builds_array_of_length_size(self, ten_grid):
@@ -88,6 +92,14 @@ class TestGrid:
         for y in range(2):
             for x in range(2):
                 assert test_grid.diagram[y][x].alive is True
+
+    def test_display(self, three_grid_with_horizontal_bar):
+        assert three_grid_with_horizontal_bar.display() == [
+            [u"\u25A1", u"\u25A1", u"\u25A1"],
+            [u"\u25A0", u"\u25A0", u"\u25A0"],
+            [u"\u25A1", u"\u25A1", u"\u25A1"]
+        ]
+
 
 class TestCell:
     def test_cell_is_initialised_dead(self, cell):

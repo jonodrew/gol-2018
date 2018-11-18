@@ -1,11 +1,16 @@
 import typing
 
+
 class Cell:
-    def __init__(self, alive: bool=False):
+    def __init__(self, alive: bool = False):
         self.alive = alive
 
+    def black_or_white_square(self):
+        return u"\u25A0" if self.alive else u"\u25A1"
+
+
 class Grid:
-    def __init__(self, size: int, initial_state: typing.List[typing.List[bool]]=None):
+    def __init__(self, size: int, initial_state: typing.List[typing.List[bool]] = None):
         self.length = size
         if initial_state:
             self.diagram = Grid.set_initial_state(initial_state)
@@ -32,6 +37,9 @@ class Grid:
 
     def get_cell_status(self, y_coordinate: int, x_coordinate: int) -> bool:
         return self.diagram[y_coordinate][x_coordinate].alive
+
+    def display(self):
+        return [[self.diagram[y][x].black_or_white_square() for x in range(self.length)] for y in range(self.length)]
 
     @staticmethod
     def will_live(neighbours: typing.List[Cell], cell_alive: bool) -> bool:
